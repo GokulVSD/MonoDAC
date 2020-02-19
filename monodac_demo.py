@@ -6,15 +6,15 @@ app = Flask(__name__)
 def renderLandingPage():
     return render_template('landing.html')
 
-@app.route('/localstorage')
+@app.route('/localstorage', methods = ['GET'])
 def renderLocalStoragePage():
     return render_template('local.html')
 
-@app.route('/ipcamera')
+@app.route('/ipcamera', methods = ['GET'])
 def renderIPCameraPage():
     return render_template('ip.html')
 
-@app.route('/about')
+@app.route('/about', methods = ['GET'])
 def renderAboutPage():
     return render_template('about.html')
 
