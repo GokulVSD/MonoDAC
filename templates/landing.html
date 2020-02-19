@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MonoDAC</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lib/materialize.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    
+    <nav>
+        <div class="nav-wrapper">
+          <a href="#" class="brand-logo center"><strong>MonoDAC</strong></a>
+          <ul class="left hide-on-med-and-down">
+            <li class="active"><a href="#"><i class="material-icons left">folder_open</i> Local Storage</a></li>
+            <li><a href="#"><i class="material-icons left">linked_camera</i>IP Camera</a></li>
+            <li><a href="#"><i class="material-icons left">info_outline</i>About</a></li>
+          </ul>
+          <a class="btn-floating btn-large halfway-fab waves-effect waves-light">
+            <i class="material-icons">add</i>
+          </a>
+        </div>
+    </nav>
+
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='lib/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/materialize.js') }}"></script>
+</body>
+</html>
