@@ -57,7 +57,7 @@ end_header
 
 def display_point_cloud():
 
-    pcd = read_point_cloud("./temp/temp.ply")
+    pcd = read_point_cloud("./temp/pc.ply")
     draw_geometries([pcd])
 
 

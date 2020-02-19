@@ -6,5 +6,18 @@ app = Flask(__name__)
 def renderLandingPage():
     return render_template('landing.html')
 
+@app.route('/localstorage')
+def renderLocalStoragePage():
+    return render_template('local.html')
+
+@app.route('/ipcamera')
+def renderIPCameraPage():
+    return render_template('ip.html')
+
+@app.route('/about')
+def renderAboutPage():
+    return render_template('about.html')
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0')

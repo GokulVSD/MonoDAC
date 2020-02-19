@@ -11,6 +11,7 @@
 </head>
 <body>
     
+    <!-- Nav Bar -->
     <nav>
         <div class="nav-wrapper">
           <a href="#" class="brand-logo center"><strong>MonoDAC</strong></a>
@@ -24,9 +25,21 @@
           </a>
         </div>
     </nav>
+    <!-- Nav Bar End -->
+
+    <div class="container" id="placeholder">
+
+      <div class="row">
+        <div class="col s6">Input RGB Image <div class="divider"></div></div>
+        <div class="col s6">Output Depth Intensity <div class="divider"></div></div>
+      </div>
+
+    </div>
+
 
     <!-- JS -->
     <script src="{{ url_for('static', filename='lib/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/materialize.js') }}"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

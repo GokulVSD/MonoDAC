@@ -22,6 +22,12 @@
     -webkit-font-smoothing: antialiased;
   }
 
+
+@font-face {
+    font-family: 'productbold';
+    src: url('productbold.ttf');
+  }
+
 /* latin */
 @font-face {
     font-family: 'Fredoka One';
@@ -36,11 +42,19 @@
   
 /* Custom styling */
 
-nav {
-    background-color: #EC8B5E;
+body {
+  text-align: center;
+  font-family: 'productbold';
+  color: #777B7E;
+  font-size: 20px;
 }
 
-nav a {
+.row {
+  margin-top: 50px;
+}
+
+nav {
+    background-color: #EC8B5E;
     font-family: 'Fredoka One', cursive;
 }
 
@@ -50,6 +64,7 @@ nav a i {
 
 nav ul li a{
   font-size: 18px;
+  color: white;
 }
 
 .brand-logo.center {
