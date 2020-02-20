@@ -45,7 +45,7 @@
 body {
   text-align: center;
   font-family: 'productbold';
-  color: #777B7E;
+  color: #F96167;
   font-size: 20px;
 }
 
@@ -82,4 +82,25 @@ nav ul li a{
 
 .btn-floating i {
     color: #F96167 !important;
+}
+
+.btn-large {
+    background-color: #FCE77D;
+    color: #F96167 !important;
+}
+
+.btn-large:hover {
+    background-color: #FFAB7E;
+}
+
+.card .card-content {
+  text-align: left;
+  color: #777B7E;
+  padding: 15px;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+
+.card-content .card-title {
+  font-size: 18px;
 }

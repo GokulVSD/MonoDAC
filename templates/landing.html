@@ -20,7 +20,7 @@
             <li id="ip"><a onclick="openIP()"><i class="material-icons left">linked_camera</i>IP Camera</a></li>
             <li id="about"><a onclick="openAbout()"><i class="material-icons left">info_outline</i>About</a></li>
           </ul>
-          <a class="btn-floating btn-large halfway-fab waves-effect waves-light" id="select-btn" onclick="triggerSelect()">
+          <a class="btn-floating btn-large halfway-fab waves-effect waves-light" id="plus-btn" onclick="triggerSelect()" style="right: 60px;">
             <i class="material-icons">add</i>
           </a>
         </div>
@@ -34,13 +34,37 @@
       </form>
 
       <div class="row">
-        <div class="col s6">Input RGB Image <div class="divider"></div></div>
-        <div class="col s6">Output Depth Intensity <div class="divider"></div></div>
+
+        <div class="col s12 m6">
+          <div class="card">
+            <div class="card-image">
+              <img src="{{ url_for('static', filename='temp/c.png') }}" alt="Use + to select an image">
+              <a class="btn-floating halfway-fab waves-effect waves-light" onclick="triggerDownload('c.png')"><i class="material-icons">file_download</i></a>
+            </div>
+            <div class="card-content">
+              <span class="card-title">INPUT RGB IMAGE</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col s12 m6">
+          <div class="card">
+            <div class="card-image">
+              <img src="{{ url_for('static', filename='temp/d.png') }}" alt="Depth intensity map will show up here">
+              <a class="btn-floating halfway-fab waves-effect waves-light" onclick="triggerDownload('d.png')"><i class="material-icons">file_download</i></a>
+            </div>
+            <div class="card-content">
+              <span class="card-title">OUTPUT DEPTH MAP</span>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <div class="row">
-        <div class="col s6"><img alt="Use + to select an image" id="local-input"></div>
-        <div class="col s6"><img alt="Depth Intensity map will show up here" id="local-depth"></div>
+        <div class="col s3"></div>
+        <div class="col s6"><a class="waves-effect waves-light btn-large" onclick="loadPointCloud()"><i class="material-icons right">3d_rotation</i> View 3D Point Cloud</a></div>
+        <div class="col s3"></div>
       </div>
 
     </div>

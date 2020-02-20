@@ -35,7 +35,7 @@ def generate_point_cloud(rgb_file, depth_file):
             
             points.append("%f %f %f %d %d %d 0\n"%(X, Y, Z, color[0], color[1], color[2]))
 
-    file = open("temp.ply","w")
+    file = open("./temp/pc.ply","w")
     
     file.write('''ply
 format ascii 1.0
@@ -62,7 +62,4 @@ def display_point_cloud():
 
 
 
-
-generate_point_cloud("./temp/c.png", "./temp/d.png")
-display_point_cloud()
     

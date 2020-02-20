@@ -10,7 +10,7 @@ function openLocal(){
 			$('#placeholder').html(response);
             $('nav ul li').removeClass("active");
 			$('#local').addClass("active");
-			$('#select-btn').show();
+			$('#plus-btn').show();
 			filesystem = true;
 		}
 	});
@@ -26,7 +26,7 @@ function openIP(){
 			$('#placeholder').html(response);
             $('nav ul li').removeClass("active");
 			$('#ip').addClass("active");
-			$('#select-btn').show();
+			$('#plus-btn').show();
 			filesystem = false;
 		}
 	});
@@ -42,10 +42,14 @@ function openAbout(){
 			$('#placeholder').html(response);
             $('nav ul li').removeClass("active");
 			$('#about').addClass("active");
-			$('#select-btn').hide();
+			$('#plus-btn').hide();
 		}
 	});
     
+}
+
+function triggerDownload(img){
+	window.location = "./static/temp/" + img;
 }
 
 function triggerSelect(){
@@ -64,5 +68,17 @@ function triggerSelect(){
 
 function imageSelected() {
 	$("#file-input").submit();
+}
+
+function loadPointCloud(){
+
+	$.ajax({
+		type: 'GET',
+		url: '/loadpointcloud',
+		success: function(response){
+			console.log("Point Cloud Generated Successfully");
+		}
+	});
+
 }
 

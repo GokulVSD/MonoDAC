@@ -1,9 +1,12 @@
 from flask import Flask, request, jsonify, render_template
 import os
 
+from point_cloud import generate_point_cloud, display_point_cloud
+
+
 app = Flask(__name__)
 
-app.config['UPLOAD_FOLDER'] = "./temp" 
+app.config['UPLOAD_FOLDER'] = "./static/temp" 
 
 
 @app.route('/')
@@ -28,12 +31,21 @@ def renderAboutPage():
 
 @app.route('/localupload', methods = ['POST'])
 def uploadFileLocally():
-    print("test")
+
     file = request.files['file[]']
     if file:
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'],"upload_test.png"))
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'],"c.png"))
     
     return render_template('landing.html')
+
+
+@app.route('/loadpointcloud', methods = ['GET'])
+def loadPointCloud():
+
+    generate_point_cloud("./static/temp/c.png", "./static/temp/d.png")
+    display_point_cloud()
+    
+    return "Success"
 
 
 if __name__ == "__main__":
