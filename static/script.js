@@ -1,3 +1,6 @@
+var filesystem = true;
+
+
 function openLocal(){
 
     $.ajax({
@@ -6,7 +9,9 @@ function openLocal(){
 		success: function(response){
 			$('#placeholder').html(response);
             $('nav ul li').removeClass("active");
-            $('#local').addClass("active");
+			$('#local').addClass("active");
+			$('#select-btn').show();
+			filesystem = true;
 		}
 	});
 
@@ -20,7 +25,9 @@ function openIP(){
 		success: function(response){
 			$('#placeholder').html(response);
             $('nav ul li').removeClass("active");
-            $('#ip').addClass("active");
+			$('#ip').addClass("active");
+			$('#select-btn').show();
+			filesystem = false;
 		}
 	});
 
@@ -34,9 +41,28 @@ function openAbout(){
 		success: function(response){
 			$('#placeholder').html(response);
             $('nav ul li').removeClass("active");
-            $('#about').addClass("active");
+			$('#about').addClass("active");
+			$('#select-btn').hide();
 		}
 	});
     
+}
+
+function triggerSelect(){
+
+	if(filesystem){
+
+		$("#file-input input").click();
+
+	} else {
+
+		console.log("Select image from IP Cam");
+
+	}
+
+}
+
+function imageSelected() {
+	$("#file-input").submit();
 }
 
