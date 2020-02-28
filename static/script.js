@@ -33,7 +33,18 @@ function openIP(){
 			$('#plus-btn').show();
 			filesystem = false;
 
-			$('.collapsible').collapsible();
+			$('.collapsible').collapsible({
+				accordion: true,    
+				onOpenStart: function(e){
+
+					$(e).find('.collapsible-header div:last-child i').text('keyboard_arrow_up');
+
+				},
+				onCloseStart:function(e){
+					
+					$(e).find('.collapsible-header div:last-child i').text('keyboard_arrow_down');
+				}
+			});
 		}
 	});
 
@@ -91,5 +102,6 @@ function loadPointCloud(){
 
 // Live Preview Stuff
 
-
-
+// $('.collapsible').collapsible('open', 1);
+// check_circle
+// Use modal for warning, toast for connection establishment and loss
