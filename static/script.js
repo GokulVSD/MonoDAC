@@ -10,6 +10,8 @@ function openLocal(){
 			$('#placeholder').html(response);
             $('nav ul li').removeClass("active");
 			$('#local').addClass("active");
+
+			$('#trigger-btn-icon').html("file_upload");
 			$('#plus-btn').show();
 			filesystem = true;
 		}
@@ -26,8 +28,12 @@ function openIP(){
 			$('#placeholder').html(response);
             $('nav ul li').removeClass("active");
 			$('#ip').addClass("active");
+
+			$('#trigger-btn-icon').html("camera");
 			$('#plus-btn').show();
 			filesystem = false;
+
+			$('.collapsible').collapsible();
 		}
 	});
 
@@ -81,4 +87,9 @@ function loadPointCloud(){
 	});
 
 }
+
+
+// Live Preview Stuff
+
+
 

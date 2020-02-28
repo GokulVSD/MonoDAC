@@ -43,6 +43,7 @@
 /* Custom styling */
 
 body {
+  user-select: none;
   text-align: center;
   font-family: 'productbold';
   color: #F96167;
@@ -95,7 +96,6 @@ nav ul li a{
 
 .card .card-content {
   text-align: left;
-  color: #777B7E;
   padding: 15px;
   font-size: 18px;
   letter-spacing: 1px;
