@@ -14,7 +14,15 @@
                 </div>
 
                 <div class="collapsible-body">
-                    <span>Lorem ipsum dolor sit amet.</span>
+
+                        <div class="input-field">
+                            <input id="ip-addr" type="text" class="validate">
+                            <label for="ip-addr">Camera IP Address with Port Number</label>
+                            <span class="helper-text">Format:&nbsp;&nbsp; xxx . xxx . xxx . xxx : xxxxx</span>
+                        </div>
+
+                        <a class="waves-effect waves-light btn-large" id="connect-btn" onclick="connectToCamera()"><i class="material-icons left">rss_feed</i>Connect</a>
+
                 </div>
             </li>
 

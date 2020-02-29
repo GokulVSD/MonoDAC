@@ -1,4 +1,7 @@
 var filesystem = true;
+var cameraip = null;
+var stoppinging = true;
+var pingloop = null;
 
 
 function openLocal(){
@@ -105,3 +108,58 @@ function loadPointCloud(){
 // $('.collapsible').collapsible('open', 1);
 // check_circle
 // Use modal for warning, toast for connection establishment and loss
+
+function connectToCamera(){
+
+	$("#connect-btn").attr("onclick","return;");
+
+	// clearing the previous connection ping loop
+	if(!stoppinging){
+
+		if(pingloop != null){
+			clearInterval(pingloop);
+		}
+
+		stoppinging = true;
+		setTimeout(connectToCamera, 1501);
+		return;
+
+	}
+
+	cameraip = $("#ip-addr").val();
+	stoppinging = false;
+	
+	pingloop = setInterval(
+		function(){
+			if(stoppinging){
+				clearInterval(pingloop);
+				$("#connect-btn").attr("onclick","connectToCamera()");
+			}
+			else{
+				ping(cameraip);
+			}
+		},
+		1500
+	);
+	
+}
+
+function ping(ip) {
+	var image = new Image();
+	image.src = "http://" + ip + "/shot.jpg";
+	setTimeout
+	(
+		function()
+		{
+			if ( !image.complete || !image.naturalWidth ){
+				console.log("Failed to Connect");
+				stoppinging = true;
+			}
+			else{
+				console.log("Connection Established");
+				$("#connect-btn").attr("onclick","connectToCamera()");
+			}
+		},
+		1000
+	);
+  }
