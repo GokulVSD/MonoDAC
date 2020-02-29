@@ -1,6 +1,7 @@
 var filesystem = true;
 var cameraip = null;
 var stoppinging = true;
+var firstattempt = true;
 var pingloop = null;
 
 
@@ -103,15 +104,15 @@ function loadPointCloud(){
 }
 
 
-// Live Preview Stuff
-
-// $('.collapsible').collapsible('open', 1);
-// check_circle
-// Use modal for warning, toast for connection establishment and loss
+// Live Preview connection handling
 
 function connectToCamera(){
 
+	$('.modal').modal();
+
 	$("#connect-btn").attr("onclick","return;");
+
+	$("#conn-status").html('<div class="preloader-wrapper small active" style="width: 24px; height: 24px;"><div class="spinner-layer spinner-green-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div>');
 
 	// clearing the previous connection ping loop
 	if(!stoppinging){
@@ -128,11 +129,13 @@ function connectToCamera(){
 
 	cameraip = $("#ip-addr").val();
 	stoppinging = false;
+	firstattempt = true;
 	
 	pingloop = setInterval(
 		function(){
 			if(stoppinging){
 				clearInterval(pingloop);
+
 				$("#connect-btn").attr("onclick","connectToCamera()");
 			}
 			else{
@@ -154,11 +157,27 @@ function ping(ip) {
 			if ( !image.complete || !image.naturalWidth ){
 				console.log("Failed to Connect");
 				stoppinging = true;
+
+				if(firstattempt){
+					$('.modal').modal('open');
+				}
+
+				M.toast({html: 'Disconnected'});
+				$("#conn-status").html('<i class="material-icons left">report</i>');
+				$('.collapsible').collapsible('open', 0);
 			}
 			else{
 				console.log("Connection Established");
+
+				if(firstattempt){
+					M.toast({html: 'Connection Established'});
+					$("#conn-status").html('<i class="material-icons left" style="color: #0f9d58;">check_circle</i>');
+					$('.collapsible').collapsible('open', 1);
+				}
+
 				$("#connect-btn").attr("onclick","connectToCamera()");
 			}
+			firstattempt = false;
 		},
 		1000
 	);

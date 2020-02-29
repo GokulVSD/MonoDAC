@@ -1,3 +1,14 @@
+<div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4><i class="material-icons">sms_failed</i> Unable to Connect</h4>
+      <p>Please ensure that the IP camera is discoverable and is connected to the same network that this system is connected to.</p>
+    </div>
+    <div class="modal-footer">
+      <a onclick="$('.modal').modal('close');" class="modal-close waves-effect waves-green btn-flat"><i class="material-icons left">close</i> Close</a>
+    </div>
+</div>
+
+
 <div class="row">
 
     <div class="col s12 m3"></div>
@@ -8,7 +19,7 @@
 
             <li class="active">
                 <div class="collapsible-header">
-                        <div class="col s12 m3"><i class="material-icons left">report</i></div>
+                        <div class="col s12 m3" id="conn-status"><i class="material-icons left">report</i></div>
                         <div class="col s12 m6" style="color: #777B7E;">Disconnected</div>
                         <div class="col s12 m3"><i class="material-icons right">keyboard_arrow_up</i></div>
                 </div>
@@ -33,7 +44,7 @@
                     <div class="col s12 m3"><i class="material-icons right">keyboard_arrow_down</i></div>
                 </div>
 
-                <div class="collapsible-body">
+                <div class="collapsible-body" id="live-preview-container">
                     <span style="color: #777B7E;">IP Camera cannot be reached, please ensure that camera is connected and streaming over the correct IP address and port number, on the same network.</span>
                 </div>
             </li>

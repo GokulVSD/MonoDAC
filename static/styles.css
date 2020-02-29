@@ -97,10 +97,8 @@ nav ul li a{
 .card .card-content {
   text-align: left;
   padding: 15px;
-  font-size: 18px;
-  letter-spacing: 1px;
 }
 
 .card-content .card-title {
-  font-size: 18px;
+  font-size: 22px;
 }
