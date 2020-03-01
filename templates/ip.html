@@ -1,7 +1,7 @@
 <div id="modal1" class="modal">
     <div class="modal-content">
       <h4><i class="material-icons">sms_failed</i> Unable to Connect</h4>
-      <p>Please ensure that the IP camera is discoverable and is connected to the same network that this system is connected to.</p>
+      <p style="color: #777B7E;">Please ensure that the IP camera is discoverable and is connected to the same network that this system is connected to.</p>
     </div>
     <div class="modal-footer">
       <a onclick="$('.modal').modal('close');" class="modal-close waves-effect waves-green btn-flat"><i class="material-icons left">close</i> Close</a>
@@ -20,7 +20,7 @@
             <li class="active">
                 <div class="collapsible-header">
                         <div class="col s12 m3" id="conn-status"><i class="material-icons left">report</i></div>
-                        <div class="col s12 m6" style="color: #777B7E;">Disconnected</div>
+                        <div class="col s12 m6" style="color: #777B7E;" id="conn-status-text">Disconnected</div>
                         <div class="col s12 m3"><i class="material-icons right">keyboard_arrow_up</i></div>
                 </div>
 
@@ -28,7 +28,7 @@
 
                         <div class="input-field">
                             <input id="ip-addr" type="text" class="validate">
-                            <label for="ip-addr">Camera IP Address with Port Number</label>
+                            <label id="ip-label" for="ip-addr">Camera IP Address with Port Number</label>
                             <span class="helper-text">Format:&nbsp;&nbsp; xxx . xxx . xxx . xxx : xxxxx</span>
                         </div>
 
@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="collapsible-body" id="live-preview-container">
-                    <span style="color: #777B7E;">IP Camera cannot be reached, please ensure that camera is connected and streaming over the correct IP address and port number, on the same network.</span>
+                    <span style="color: #777B7E;">IP Camera is disconnected, please ensure that camera is connected and streaming over the correct IP address and port number, on the same network.</span>
                 </div>
             </li>
 

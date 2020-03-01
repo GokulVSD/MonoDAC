@@ -1,11 +1,19 @@
 var filesystem = true;
 var cameraip = null;
+var oldcameraip = null;
 var stoppinging = true;
 var firstattempt = true;
 var pingloop = null;
 
 
 function openLocal(){
+
+	if(!stoppinging){
+		oldcameraip = cameraip;
+		$("#ip-label").addClass("active");
+		$("#ip-addr").val('Suspending Connection');
+		connectToCamera();
+	}
 
     $.ajax({
 		type: 'GET',
@@ -24,6 +32,13 @@ function openLocal(){
 }
 
 function openIP(){
+
+	if(!stoppinging){
+		oldcameraip = cameraip;
+		$("#ip-label").addClass("active");
+		$("#ip-addr").val('Suspending Connection');
+		connectToCamera();
+	}
 
     $.ajax({
 		type: 'GET',
@@ -49,12 +64,27 @@ function openIP(){
 					$(e).find('.collapsible-header div:last-child i').text('keyboard_arrow_down');
 				}
 			});
+
+			if(oldcameraip != null){
+
+				$("#ip-label").addClass("active");
+				$("#ip-addr").val(oldcameraip);
+				connectToCamera();
+			}
 		}
 	});
 
 }
 
 function openAbout(){
+
+	if(!stoppinging){
+		oldcameraip = cameraip;
+		$("#ip-label").addClass("active");
+		$("#ip-addr").val('Suspending Connection');
+		connectToCamera();
+	}
+
 
     $.ajax({
 		type: 'GET',
@@ -112,6 +142,7 @@ function connectToCamera(){
 
 	$("#connect-btn").attr("onclick","return;");
 
+	$("#conn-status-text").text('Connecting');
 	$("#conn-status").html('<div class="preloader-wrapper small active" style="width: 24px; height: 24px;"><div class="spinner-layer spinner-green-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div>');
 
 	// clearing the previous connection ping loop
@@ -164,6 +195,7 @@ function ping(ip) {
 
 				M.toast({html: 'Disconnected'});
 				$("#conn-status").html('<i class="material-icons left">report</i>');
+				$("#conn-status-text").text('Disconnected');
 				$('.collapsible').collapsible('open', 0);
 			}
 			else{
@@ -172,6 +204,7 @@ function ping(ip) {
 				if(firstattempt){
 					M.toast({html: 'Connection Established'});
 					$("#conn-status").html('<i class="material-icons left" style="color: #0f9d58;">check_circle</i>');
+					$("#conn-status-text").text('Connected');
 					$('.collapsible').collapsible('open', 1);
 				}
 
