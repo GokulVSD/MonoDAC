@@ -35,8 +35,10 @@ def uploadFileLocally():
     file = request.files['file[]']
     if file:
         file.save(os.path.join(app.config['UPLOAD_FOLDER'],"c.png"))
+
+    # Perform Depth estimation here, and save to d.png
     
-    return render_template('landing.html')
+    return "Finished"
 
 
 @app.route('/loadpointcloud', methods = ['GET'])

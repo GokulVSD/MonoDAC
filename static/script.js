@@ -111,6 +111,7 @@ function triggerSelect(){
 
 	} else {
 
+		//inform server to capture image, generate depth map, and refetch image
 		console.log("Select image from IP Cam");
 
 	}
@@ -118,7 +119,32 @@ function triggerSelect(){
 }
 
 function imageSelected() {
-	$("#file-input").submit();
+	$("#file-input").submit(function(e) {
+		e.preventDefault();
+
+		// Use preloader animation here
+
+		var form = $('#file-input')[0];
+		var data = new FormData(form);
+		
+		$.ajax({
+            type: "POST",
+            enctype: 'multipart/form-data',
+            url: "/localupload",
+            data: data,
+            processData: false,
+            contentType: false,
+            cache: false,
+            timeout: 600000,
+            success: function(response) {
+
+				console.log(response);
+				// Refetch the images here
+
+            }
+		});
+		
+	});
 }
 
 function loadPointCloud(){
@@ -186,7 +212,7 @@ function ping(ip) {
 		function()
 		{
 			if ( !image.complete || !image.naturalWidth ){
-				console.log("Failed to Connect");
+				console.log("Disconnected");
 				stoppinging = true;
 
 				if(firstattempt){
@@ -197,6 +223,7 @@ function ping(ip) {
 				$("#conn-status").html('<i class="material-icons left">report</i>');
 				$("#conn-status-text").text('Disconnected');
 				$('.collapsible').collapsible('open', 0);
+				$("#live-preview-container").html('<span style="color: #777B7E;">IP Camera is disconnected, please ensure that camera is connected and streaming over the correct IP address and port number, on the same network.</span>');
 			}
 			else{
 				console.log("Connection Established");
@@ -205,6 +232,7 @@ function ping(ip) {
 					M.toast({html: 'Connection Established'});
 					$("#conn-status").html('<i class="material-icons left" style="color: #0f9d58;">check_circle</i>');
 					$("#conn-status-text").text('Connected');
+					$("#live-preview-container").html('<img id="browser_video" alt="Something went wrong" src="http://'+ ip +'/video">');
 					$('.collapsible').collapsible('open', 1);
 				}
 
