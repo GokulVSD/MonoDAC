@@ -119,8 +119,6 @@ function triggerSelect(){
 }
 
 function imageSelected() {
-	$("#file-input").submit(function(e) {
-		e.preventDefault();
 
 		// Use preloader animation here
 
@@ -135,7 +133,7 @@ function imageSelected() {
             processData: false,
             contentType: false,
             cache: false,
-            timeout: 600000,
+            // timeout: 600000,
             success: function(response) {
 
 				console.log(response);
@@ -143,8 +141,7 @@ function imageSelected() {
 
             }
 		});
-		
-	});
+	
 }
 
 function loadPointCloud(){
