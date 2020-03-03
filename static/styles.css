@@ -69,7 +69,8 @@ nav ul li a{
 }
 
 .brand-logo.center {
-    color: #2D4059 !important;
+    /* color: #2D4059 !important; */
+    color: firebrick !important;
     font-size: 40px;
 }
 
@@ -92,6 +93,10 @@ nav ul li a{
 
 .btn-large:hover {
     background-color: #FFAB7E;
+}
+
+.card {
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
 .card .card-content {

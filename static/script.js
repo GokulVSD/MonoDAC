@@ -1,19 +1,16 @@
 var filesystem = true;
 var cameraip = null;
-var oldcameraip = null;
 var stoppinging = true;
 var firstattempt = true;
 var pingloop = null;
 
+$( document ).ready(function() {
+    $("#local-input-img img").attr('src','/static/temp/c.png?t=' + new Date().getTime());
+	$("#local-depth-img img").attr('src','/static/temp/d.png?t=' + new Date().getTime());
+});
+
 
 function openLocal(){
-
-	if(!stoppinging){
-		oldcameraip = cameraip;
-		$("#ip-label").addClass("active");
-		$("#ip-addr").val('Suspending Connection');
-		connectToCamera();
-	}
 
     $.ajax({
 		type: 'GET',
@@ -25,6 +22,9 @@ function openLocal(){
 
 			$('#trigger-btn-icon').html("file_upload");
 			$('#plus-btn').show();
+
+			$("#local-input-img img").attr('src','/static/temp/c.png?t=' + new Date().getTime());
+			$("#local-depth-img img").attr('src','/static/temp/d.png?t=' + new Date().getTime());
 			filesystem = true;
 		}
 	});
@@ -33,13 +33,6 @@ function openLocal(){
 
 function openIP(){
 
-	if(!stoppinging){
-		oldcameraip = cameraip;
-		$("#ip-label").addClass("active");
-		$("#ip-addr").val('Suspending Connection');
-		connectToCamera();
-	}
-
     $.ajax({
 		type: 'GET',
 		url: '/ipcamera',
@@ -47,6 +40,9 @@ function openIP(){
 			$('#placeholder').html(response);
             $('nav ul li').removeClass("active");
 			$('#ip').addClass("active");
+
+			$("#ip-input-img img").attr('src','/static/temp/c.png?t=' + new Date().getTime());
+			$("#ip-depth-img img").attr('src','/static/temp/d.png?t=' + new Date().getTime());
 
 			$('#trigger-btn-icon').html("camera");
 			$('#plus-btn').show();
@@ -65,11 +61,13 @@ function openIP(){
 				}
 			});
 
-			if(oldcameraip != null){
-
+			if(!stoppinging){
 				$("#ip-label").addClass("active");
-				$("#ip-addr").val(oldcameraip);
-				connectToCamera();
+				$("#ip-addr").val(cameraip);
+				$("#conn-status").html('<i class="material-icons left" style="color: #0f9d58;">check_circle</i>');
+				$("#conn-status-text").text('Connected');
+				$("#live-preview-container").html('<img style="width: 100%;" id="browser_video" alt="Something went wrong" src="http://'+ cameraip +'/video">');
+				$('.collapsible').collapsible('open', 1);
 			}
 		}
 	});
@@ -77,13 +75,6 @@ function openIP(){
 }
 
 function openAbout(){
-
-	if(!stoppinging){
-		oldcameraip = cameraip;
-		$("#ip-label").addClass("active");
-		$("#ip-addr").val('Suspending Connection');
-		connectToCamera();
-	}
 
 
     $.ajax({
@@ -111,8 +102,40 @@ function triggerSelect(){
 
 	} else {
 
-		//inform server to capture image, generate depth map, and refetch image
-		console.log("Select image from IP Cam");
+		if(stoppinging){
+			M.toast({html: 'Not connected to a camera'});
+		} else {
+
+			$("#plus-btn").attr("onclick", "return;");
+
+			$("#ip-input-title-container").html('<div class="preloader-wrapper small active" style="width: 24px; height: 24px;"><div class="spinner-layer spinner-green-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div>');
+			$("#ip-depth-title-container").html('<div class="preloader-wrapper small active" style="width: 24px; height: 24px;"><div class="spinner-layer spinner-green-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div>');
+
+			$.ajax({
+				type: 'POST',
+				url: '/capturefromcamera',
+				data: { ip : cameraip },
+				success: function(response){
+
+					console.log(response);
+					$("#ip-input-img img").attr('src','/static/temp/c.png?t=' + new Date().getTime());
+					$("#ip-depth-img img").attr('src','/static/temp/d.png?t=' + new Date().getTime());
+
+					$("#ip-input-title-container").html("");
+					$("#ip-depth-title-container").html("");
+
+					$("#plus-btn").attr("onclick", "triggerSelect()");
+				},
+				error: function(jq, ts, er) {
+					console.log(er);
+					$("#ip-input-title-container").html("");
+					$("#ip-depth-title-container").html("");
+	
+					$("#plus-btn").attr("onclick", "triggerSelect()");
+				}
+			});
+
+		}
 
 	}
 
@@ -120,7 +143,10 @@ function triggerSelect(){
 
 function imageSelected() {
 
-		// Use preloader animation here
+		$("#plus-btn").attr("onclick", "return;");
+
+		$("#local-input-title-container").html('<div class="preloader-wrapper small active" style="width: 24px; height: 24px;"><div class="spinner-layer spinner-green-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div>');
+		$("#local-depth-title-container").html('<div class="preloader-wrapper small active" style="width: 24px; height: 24px;"><div class="spinner-layer spinner-green-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div>');
 
 		var form = $('#file-input')[0];
 		var data = new FormData(form);
@@ -137,9 +163,22 @@ function imageSelected() {
             success: function(response) {
 
 				console.log(response);
-				// Refetch the images here
+				$("#local-input-img img").attr('src','/static/temp/c.png?t=' + new Date().getTime());
+				$("#local-depth-img img").attr('src','/static/temp/d.png?t=' + new Date().getTime());
 
-            }
+				$("#local-input-title-container").html("");
+				$("#local-depth-title-container").html("");
+
+				$("#plus-btn").attr("onclick", "triggerSelect()");
+
+			},
+			error: function(jq, ts, er) {
+				console.log(er);
+				$("#local-input-title-container").html("");
+				$("#local-depth-title-container").html("");
+
+				$("#plus-btn").attr("onclick", "triggerSelect()");
+			}
 		});
 	
 }
@@ -229,7 +268,7 @@ function ping(ip) {
 					M.toast({html: 'Connection Established'});
 					$("#conn-status").html('<i class="material-icons left" style="color: #0f9d58;">check_circle</i>');
 					$("#conn-status-text").text('Connected');
-					$("#live-preview-container").html('<img id="browser_video" alt="Something went wrong" src="http://'+ ip +'/video">');
+					$("#live-preview-container").html('<img style="width: 100%;" id="browser_video" alt="Something went wrong" src="http://'+ ip +'/video">');
 					$('.collapsible').collapsible('open', 1);
 				}
 
