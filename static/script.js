@@ -20,11 +20,25 @@ function openLocal(){
             $('nav ul li').removeClass("active");
 			$('#local').addClass("active");
 
-			$('#trigger-btn-icon').html("file_upload");
-			$('#plus-btn').show();
+			if($('#plus-btn').hasClass("scale-out")){
+				$('#trigger-btn-icon').html("file_upload");
+				$('#plus-btn').removeClass("scale-out");
+			}
+			else{
+				$('#plus-btn').addClass("scale-out");
+				setTimeout(function(){
+					$('#trigger-btn-icon').html("file_upload");
+					$('#plus-btn').removeClass("scale-out");
+				}, 300);
+			}
+			
+			setTimeout(function(){
+				$('#plus-btn').removeClass("scale-out");
+			}, 250);
 
 			$("#local-input-img img").attr('src','/static/temp/c.png?t=' + new Date().getTime());
 			$("#local-depth-img img").attr('src','/static/temp/d.png?t=' + new Date().getTime());
+
 			filesystem = true;
 		}
 	});
@@ -44,8 +58,18 @@ function openIP(){
 			$("#ip-input-img img").attr('src','/static/temp/c.png?t=' + new Date().getTime());
 			$("#ip-depth-img img").attr('src','/static/temp/d.png?t=' + new Date().getTime());
 
-			$('#trigger-btn-icon').html("camera");
-			$('#plus-btn').show();
+			if($('#plus-btn').hasClass("scale-out")){
+				$('#trigger-btn-icon').html("camera");
+				$('#plus-btn').removeClass("scale-out");
+			}
+			else{
+				$('#plus-btn').addClass("scale-out");
+				setTimeout(function(){
+					$('#trigger-btn-icon').html("camera");
+					$('#plus-btn').removeClass("scale-out");
+				}, 250);
+			}
+
 			filesystem = false;
 
 			$('.collapsible').collapsible({
@@ -84,7 +108,10 @@ function openAbout(){
 			$('#placeholder').html(response);
             $('nav ul li').removeClass("active");
 			$('#about').addClass("active");
-			$('#plus-btn').hide();
+			$('#plus-btn').addClass("scale-out");
+			setTimeout(function(){
+				$('#plus-btn').addClass("scale-out");
+			}, 300);
 		}
 	});
     

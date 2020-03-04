@@ -28,6 +28,11 @@
     src: url('productbold.ttf');
   }
 
+@font-face {
+    font-family: 'productlight';
+    src: url('productlight.ttf');
+}
+
 /* latin */
 @font-face {
     font-family: 'Fredoka One';
@@ -48,6 +53,10 @@ body {
   font-family: 'productbold';
   color: #F96167;
   font-size: 20px;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 .row {
@@ -95,7 +104,7 @@ nav ul li a{
     background-color: #FFAB7E;
 }
 
-.card {
+.card, nav{
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
@@ -106,5 +115,17 @@ nav ul li a{
 
 .card-content .card-title {
   font-size: 22px;
+}
+
+#about-title {
+  transition: .2s ease-out;
+  transition-property: all;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-out;
+  transition-delay: 0s;
+}
+
+#about-title:hover {
+  color: #FCE77D;
 }
 

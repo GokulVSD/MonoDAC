@@ -3,6 +3,8 @@ import os
 
 from point_cloud import generate_point_cloud, display_point_cloud
 
+import urllib.request
+
 
 app = Flask(__name__)
 
@@ -39,6 +41,19 @@ def uploadFileLocally():
     # Perform Depth estimation here, and save to d.png
     
     return "Finished"
+
+
+@app.route('/capturefromcamera', methods = ['POST'])
+def captureFromCamera():
+
+    camera_ip = request.form['ip']
+
+    urllib.request.urlretrieve("http://" + camera_ip + "/shot.jpg", os.path.join(app.config['UPLOAD_FOLDER'],"c.png"))
+
+    # Perform Depth estimation here, and save to d.png
+
+    return "Finished"
+
 
 
 @app.route('/loadpointcloud', methods = ['GET'])
