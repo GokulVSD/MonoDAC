@@ -118,7 +118,7 @@ function openAbout(){
 }
 
 function triggerDownload(img){
-	window.location = "./static/temp/" + img;
+	window.open("./static/temp/" + img, '_blank');
 }
 
 function triggerSelect(){
