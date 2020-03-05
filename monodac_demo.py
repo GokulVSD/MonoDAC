@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, render_template
 import os
 
 from point_cloud import generate_point_cloud, display_point_cloud
+from predictor import generate_depth_map
 
 import urllib.request
 
@@ -37,9 +38,10 @@ def uploadFileLocally():
     file = request.files['file[]']
     if file:
         file.save(os.path.join(app.config['UPLOAD_FOLDER'],"c.png"))
+        file.close()
+        generate_depth_map()
+        print("Finished depth generation")
 
-    # Perform Depth estimation here, and save to d.png
-    
     return "Finished"
 
 
@@ -50,7 +52,8 @@ def captureFromCamera():
 
     urllib.request.urlretrieve("http://" + camera_ip + "/shot.jpg", os.path.join(app.config['UPLOAD_FOLDER'],"c.png"))
 
-    # Perform Depth estimation here, and save to d.png
+    generate_depth_map()
+    print("Finished depth generation")
 
     return "Finished"
 
@@ -66,4 +69,4 @@ def loadPointCloud():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    app.run(debug = False, threaded = False)

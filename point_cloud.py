@@ -24,8 +24,13 @@ def generate_point_cloud(rgb_file, depth_file):
         for u in range(rgb.size[0]):
             
             color = rgb.getpixel((u,v))
-            
-            Z = depth.getpixel((u,v)) / scalingFactor
+
+            Z = None
+
+            if type(depth.getpixel((u,v))) == tuple:
+                Z = depth.getpixel((u,v))[0] / scalingFactor
+            else:
+                Z = depth.getpixel((u,v)) / scalingFactor
             
             if Z == 0: 
                 continue

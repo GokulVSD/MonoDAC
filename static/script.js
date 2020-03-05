@@ -118,7 +118,7 @@ function openAbout(){
 }
 
 function triggerDownload(img){
-	window.open("./static/temp/" + img, '_blank');
+	window.open("./static/temp/" + img + '?t=' + new Date().getTime(), '_blank');
 }
 
 function triggerSelect(){
@@ -138,6 +138,8 @@ function triggerSelect(){
 			$("#ip-input-title-container").html('<div class="preloader-wrapper small active" style="width: 24px; height: 24px;"><div class="spinner-layer spinner-green-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div>');
 			$("#ip-depth-title-container").html('<div class="preloader-wrapper small active" style="width: 24px; height: 24px;"><div class="spinner-layer spinner-green-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div>');
 
+			console.log("Requesting server")
+
 			$.ajax({
 				type: 'POST',
 				url: '/capturefromcamera',
@@ -155,6 +157,9 @@ function triggerSelect(){
 				},
 				error: function(jq, ts, er) {
 					console.log(er);
+					$("#ip-input-img img").attr('src','/static/temp/c.png?t=' + new Date().getTime());
+					$("#ip-depth-img img").attr('src','/static/temp/d.png?t=' + new Date().getTime());
+
 					$("#ip-input-title-container").html("");
 					$("#ip-depth-title-container").html("");
 	
@@ -177,6 +182,8 @@ function imageSelected() {
 
 		var form = $('#file-input')[0];
 		var data = new FormData(form);
+
+		console.log("Requesting server")
 		
 		$.ajax({
             type: "POST",
@@ -201,6 +208,9 @@ function imageSelected() {
 			},
 			error: function(jq, ts, er) {
 				console.log(er);
+				$("#local-input-img img").attr('src','/static/temp/c.png?t=' + new Date().getTime());
+				$("#local-depth-img img").attr('src','/static/temp/d.png?t=' + new Date().getTime());
+				
 				$("#local-input-title-container").html("");
 				$("#local-depth-title-container").html("");
 
