@@ -3,7 +3,10 @@ import os
 from PIL import Image
 
 import numpy as np
-from open3d import read_point_cloud, draw_geometries   
+from open3d import read_point_cloud, draw_geometries
+
+# Instructions on how to control the view:
+# http://www.open3d.org/docs/release/tutorial/Basic/visualization.html
 
 focalLength = 525.0
 centerX = 319.5
@@ -57,7 +60,6 @@ end_header
 '''%(len(points),"".join(points)))
 
     file.close()
-
 
 
 def display_point_cloud():
