@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, render_template
 import os
 
 from point_cloud import generate_point_cloud, display_point_cloud
-from monodac_utils import generate_depth_map
+from monodac_predictor import generate_depth_map
 
 import urllib.request
 
