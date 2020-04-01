@@ -1,5 +1,7 @@
 import warnings
 warnings.filterwarnings("ignore")
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import logging
 logging.getLogger('tensorflow').disabled = True # Disabling TensorFlow warnings
 
@@ -7,9 +9,9 @@ import numpy as np
 from PIL import Image
 
 from keras.models import load_model
-from upsampler import BilinearUpSampling2D
+from bicubic_upsampler import BicubicUpSampling2D
 
-custom_obj = {'BilinearUpSampling2D': BilinearUpSampling2D, 'depth_loss_function': None }
+custom_obj = {'BicubicUpSampling2D': BicubicUpSampling2D, 'depth_loss_function': None }
 
 model = None
 try:
@@ -47,7 +49,7 @@ def load_image(image_file):
 
 # Converting predicted depth intensity (single channel) to depth map (multichannel)
 def to_multichannel(img):
-    if img.shape[2] == 3: return i
+    if img.shape[2] == 3: return img
     img = img[:,:,0]
     return np.stack((img,img,img), axis=2)
 
