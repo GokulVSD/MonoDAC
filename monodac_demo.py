@@ -52,7 +52,7 @@ def captureFromCamera():
 
     urllib.request.urlretrieve("http://" + camera_ip + "/shot.jpg", os.path.join(app.config['UPLOAD_FOLDER'],"c.png"))
 
-    generate_depth_map()
+    # generate_depth_map()
     print("Finished depth generation")
 
     return "Finished"
