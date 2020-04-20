@@ -16,6 +16,15 @@ class BicubicUpSampling2D(Layer):
         self.input_spec = InputSpec(ndim=4)
 
 
+    def get_config(self):
+
+        config = {'size': self.size, 'data_format': self.data_format}
+
+        base_config = super(BicubicUpSampling2D, self).get_config()
+
+        return dict(list(base_config.items()) + list(config.items()))
+
+
     def compute_output_shape(self, input_shape):
 
         if self.data_format == 'channels_first':
@@ -73,12 +82,3 @@ class BicubicUpSampling2D(Layer):
                 width = self.size[1] * input_shape[2]
         
         return tf.image.resize_images(inputs, [height, width], method=tf.image.ResizeMethod.BICUBIC, align_corners=True)
-
-
-    def get_config(self):
-
-        config = {'size': self.size, 'data_format': self.data_format}
-
-        base_config = super(BicubicUpSampling2D, self).get_config()
-
-        return dict(list(base_config.items()) + list(config.items()))

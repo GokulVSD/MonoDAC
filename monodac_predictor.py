@@ -15,9 +15,9 @@ custom_obj = {'BicubicUpSampling2D': BicubicUpSampling2D, 'depth_loss_function':
 
 model = None
 try:
-    model = load_model('./models/nyu.h5', custom_objects=custom_obj, compile=False)
+    model = load_model('./models/model.h5', custom_objects=custom_obj, compile=False)
 except:
-    print("Could not load model, make sure to add .h5 model to the /models/ folder")
+    print("Could not load model, make sure to add model.h5 to the /models/ folder")
     exit()
 
 
