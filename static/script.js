@@ -1,15 +1,18 @@
-var filesystem = true;
-var cameraip = null;
-var stoppinging = true;
-var firstattempt = true;
-var pingloop = null;
+var file_system = true;
+var camera_ip = null;
+var stop_pinging = true;
+var first_attempt = true;
+var ping_loop = null;
 
+
+// Fetches images from server on load
 $( document ).ready(function() {
     $("#local-input-img img").attr('src','/static/temp/c.png?t=' + new Date().getTime());
 	$("#local-depth-img img").attr('src','/static/temp/d.png?t=' + new Date().getTime());
 });
 
 
+// When Local tab option is clicked
 function openLocal(){
 
     $.ajax({
@@ -39,12 +42,14 @@ function openLocal(){
 			$("#local-input-img img").attr('src','/static/temp/c.png?t=' + new Date().getTime());
 			$("#local-depth-img img").attr('src','/static/temp/d.png?t=' + new Date().getTime());
 
-			filesystem = true;
+			file_system = true;
 		}
 	});
 
 }
 
+
+// When IP Camera tab option is clicked
 function openIP(){
 
     $.ajax({
@@ -70,7 +75,7 @@ function openIP(){
 				}, 250);
 			}
 
-			filesystem = false;
+			file_system = false;
 
 			$('.collapsible').collapsible({
 				accordion: true,    
@@ -85,12 +90,12 @@ function openIP(){
 				}
 			});
 
-			if(!stoppinging){
+			if(!stop_pinging){
 				$("#ip-label").addClass("active");
-				$("#ip-addr").val(cameraip);
+				$("#ip-addr").val(camera_ip);
 				$("#conn-status").html('<i class="material-icons left" style="color: #0f9d58;">check_circle</i>');
 				$("#conn-status-text").text('Connected');
-				$("#live-preview-container").html('<img style="width: 100%;" id="browser_video" alt="Something went wrong" src="http://'+ cameraip +'/video">');
+				$("#live-preview-container").html('<img style="width: 100%;" id="browser_video" alt="Something went wrong" src="http://'+ camera_ip +'/video">');
 				$('.collapsible').collapsible('open', 1);
 			}
 		}
@@ -98,6 +103,8 @@ function openIP(){
 
 }
 
+
+// When About tab option is clicked
 function openAbout(){
 
 
@@ -117,19 +124,24 @@ function openAbout(){
     
 }
 
+
+// When expand image option is selected
 function triggerDownload(img){
 	window.open("./static/temp/" + img + '?t=' + new Date().getTime(), '_blank');
 }
 
+
+// Called when button on the top right is clicked. Has different function according to which tab is opened
 function triggerSelect(){
 
-	if(filesystem){
+	if(file_system){
 
+		// Triggers that HTML elements onclick function, which then triggers an upload
 		$("#file-input input").click();
 
 	} else {
 
-		if(stoppinging){
+		if(stop_pinging){	// If ping has stopped, then no camera is connected
 			M.toast({html: 'Not connected to a camera'});
 		} else {
 
@@ -143,7 +155,7 @@ function triggerSelect(){
 			$.ajax({
 				type: 'POST',
 				url: '/capturefromcamera',
-				data: { ip : cameraip },
+				data: { ip : camera_ip },
 				success: function(response){
 
 					console.log(response);
@@ -156,6 +168,7 @@ function triggerSelect(){
 					$("#plus-btn").attr("onclick", "triggerSelect()");
 				},
 				error: function(jq, ts, er) {
+					M.toast({html: 'Something went wrong, check the console log for more details.'});
 					console.log(er);
 					$("#ip-input-img img").attr('src','/static/temp/c.png?t=' + new Date().getTime());
 					$("#ip-depth-img img").attr('src','/static/temp/d.png?t=' + new Date().getTime());
@@ -173,6 +186,8 @@ function triggerSelect(){
 
 }
 
+
+// Initiates file upload to server
 function imageSelected() {
 
 		$("#plus-btn").attr("onclick", "return;");
@@ -193,7 +208,7 @@ function imageSelected() {
             processData: false,
             contentType: false,
             cache: false,
-            // timeout: 600000,
+            // timeout: 20000,
             success: function(response) {
 
 				console.log(response);
@@ -207,6 +222,7 @@ function imageSelected() {
 
 			},
 			error: function(jq, ts, er) {
+				M.toast({html: 'Something went wrong, check the console log for more details.'});
 				console.log(er);
 				$("#local-input-img img").attr('src','/static/temp/c.png?t=' + new Date().getTime());
 				$("#local-depth-img img").attr('src','/static/temp/d.png?t=' + new Date().getTime());
@@ -220,6 +236,8 @@ function imageSelected() {
 	
 }
 
+
+// Requests server to generate point cloud and open viewing window
 function loadPointCloud(){
 
 	$.ajax({
@@ -234,7 +252,6 @@ function loadPointCloud(){
 
 
 // Live Preview connection handling
-
 function connectToCamera(){
 
 	$('.modal').modal();
@@ -245,38 +262,42 @@ function connectToCamera(){
 	$("#conn-status").html('<div class="preloader-wrapper small active" style="width: 24px; height: 24px;"><div class="spinner-layer spinner-green-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div>');
 
 	// clearing the previous connection ping loop
-	if(!stoppinging){
+	if(!stop_pinging){
 
-		if(pingloop != null){
-			clearInterval(pingloop);
+		if(ping_loop != null){
+			clearInterval(ping_loop);
 		}
 
-		stoppinging = true;
+		stop_pinging = true;
 		setTimeout(connectToCamera, 1501);
 		return;
 
 	}
 
-	cameraip = $("#ip-addr").val();
-	stoppinging = false;
-	firstattempt = true;
+	camera_ip = $("#ip-addr").val();
+	stop_pinging = false;
+	first_attempt = true;
 	
-	pingloop = setInterval(
+
+	// initiates a loop that infinitely pings until ping fails
+	ping_loop = setInterval(
 		function(){
-			if(stoppinging){
-				clearInterval(pingloop);
+			if(stop_pinging){
+				clearInterval(ping_loop);
 
 				$("#connect-btn").attr("onclick","connectToCamera()");
 			}
 			else{
-				ping(cameraip);
+				ping(camera_ip);
 			}
 		},
-		1500
+		1500	// interval of ping
 	);
 	
 }
 
+
+// called for each ping, handles disconnection and connection establishment
 function ping(ip) {
 	var image = new Image();
 	image.src = "http://" + ip + "/shot.jpg";
@@ -284,11 +305,11 @@ function ping(ip) {
 	(
 		function()
 		{
-			if ( !image.complete || !image.naturalWidth ){
+			if ( !image.complete || !image.naturalWidth ){	// Image not being received from IP camera
 				console.log("Disconnected");
-				stoppinging = true;
+				stop_pinging = true;
 
-				if(firstattempt){
+				if(first_attempt){	// If fails in first attempt, connection was never established
 					$('.modal').modal('open');
 				}
 
@@ -298,10 +319,10 @@ function ping(ip) {
 				$('.collapsible').collapsible('open', 0);
 				$("#live-preview-container").html('<span style="color: #777B7E;">IP Camera is disconnected, please ensure that camera is connected and streaming over the correct IP address and port number, on the same network.</span>');
 			}
-			else{
+			else{	// Image being received
 				console.log("Connection Established");
 
-				if(firstattempt){
+				if(first_attempt){
 					M.toast({html: 'Connection Established'});
 					$("#conn-status").html('<i class="material-icons left" style="color: #0f9d58;">check_circle</i>');
 					$("#conn-status-text").text('Connected');
@@ -311,8 +332,8 @@ function ping(ip) {
 
 				$("#connect-btn").attr("onclick","connectToCamera()");
 			}
-			firstattempt = false;
+			first_attempt = false;
 		},
-		1000
+		1000		// time period of waiting for a response, has to be smaller than interval of ping
 	);
   }

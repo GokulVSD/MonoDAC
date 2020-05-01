@@ -21,17 +21,18 @@ except:
     exit()
 
 
+# Normalises each pixel's depth
 def normalise_depth(x, max_depth):
     return max_depth / x
 
 # Supports multiple RGB images, one RGB image, or greyscale
 def predict(model, images, min_depth=10, max_depth=1000, batch_size=2):
 
-    # Incase images are greyscale    
+    # In case image is a JPG  
     if len(images.shape) < 3: 
         images = np.stack((images,images,images), axis=2)
 
-    # Reshaping according to model input layer
+    # In case image is a PNG
     if len(images.shape) < 4: 
         images = images.reshape((1, images.shape[0], images.shape[1], images.shape[2]))
 

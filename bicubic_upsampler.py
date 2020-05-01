@@ -3,8 +3,10 @@ import keras.utils.conv_utils as conv_utils
 import tensorflow as tf
 import keras.backend as K
 
+# Custom Keras layer, for performing bicubic upsampling
 class BicubicUpSampling2D(Layer):
 
+    # Constructor
     def __init__(self, size=(2, 2), data_format=None, **kwargs):
 
         super(BicubicUpSampling2D, self).__init__(**kwargs)
@@ -15,7 +17,7 @@ class BicubicUpSampling2D(Layer):
         
         self.input_spec = InputSpec(ndim=4)
 
-
+    # Required by Keras' layer interface
     def get_config(self):
 
         config = {'size': self.size, 'data_format': self.data_format}
@@ -24,7 +26,7 @@ class BicubicUpSampling2D(Layer):
 
         return dict(list(base_config.items()) + list(config.items()))
 
-
+    # returns layer meta information
     def compute_output_shape(self, input_shape):
 
         if self.data_format == 'channels_first':
@@ -54,7 +56,7 @@ class BicubicUpSampling2D(Layer):
 
             return (input_shape[0], height, width, input_shape[3])
 
-
+    # Layer input, returns output
     def call(self, inputs):
 
         input_shape = K.shape(inputs)

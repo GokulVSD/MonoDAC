@@ -40,6 +40,7 @@ centerX = 319.5
 centerY = 239.5
 scalingFactor = 5000.0
 
+# Creates the PLY file
 def generate_point_cloud(rgb_file, depth_file):
 
     rgb = Image.open(rgb_file)
@@ -72,6 +73,7 @@ def generate_point_cloud(rgb_file, depth_file):
 
     file = open("./temp/pc.ply","w")
     
+    # PLY file header
     file.write('''ply
 format ascii 1.0
 element vertex %d
@@ -89,6 +91,7 @@ end_header
     file.close()
 
 
+# Opens 3D point cloud viewing window on host machine
 def display_point_cloud():
 
     pcd = read_point_cloud("./temp/pc.ply")
