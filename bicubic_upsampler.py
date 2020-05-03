@@ -56,7 +56,7 @@ class BicubicUpSampling2D(Layer):
 
             return (input_shape[0], height, width, input_shape[3])
 
-    # Layer input, returns output
+    # Layer input, returns layer output
     def call(self, inputs):
 
         input_shape = K.shape(inputs)

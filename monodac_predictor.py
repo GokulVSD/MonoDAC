@@ -69,3 +69,9 @@ def generate_depth_map():
     outputs = predict(model, inputs)
     save_images('./static/temp/d.png', outputs.copy())
 
+# Used for evaluation
+def generate_depth_map_for_evaluation(rgb, depth):
+    inputs = load_image(rgb)
+    outputs = predict(model, inputs)
+    save_images(depth, outputs.copy())
+
