@@ -1,4 +1,5 @@
 import os
+import math
 
 from monodac_predictor import generate_depth_map_for_evaluation
 
@@ -9,9 +10,13 @@ TEMP_DIR = "./data/temp/"
 
 # Calculates Absolute Relative Difference, Squared Relative Difference, RMS Linear and RMS Log for 1 pair of images
 def calculate_metrics(depth, pred):
+
     t = 0
     ard_acc = 0
     srd_acc = 0
+    rms_linear_acc = 0
+    rms_log_acc = 0
+
     for x in range(depth.size[0]):
         for y in range(depth.size[1]):
 
@@ -28,9 +33,15 @@ def calculate_metrics(depth, pred):
             else:
                 z_pred = pred.getpixel((x,y))
 
-            acc += abs(z_pred - z)/z
+            # NYUv2 test has depth range from 0 to 10,000, while our model outputs 0 to 255, normalising NYUv2 test:
+            z = (z*255) // 10000
 
-    return acc/t
+            ard_acc += abs(z_pred - z)/z
+            srd_acc += (abs(z_pred - z)**2)/z
+            rms_linear_acc += abs(z_pred - z)**2
+            rms_log_acc += abs(math.log10(z_pred) - math.log10(z))**2
+
+    return ard_acc/t, srd_acc/t, math.sqrt(rms_linear_acc/t), math.sqrt(rms_log_acc/t)
 
 
 rgb_names = []
@@ -77,15 +88,22 @@ for i in range(total):
 
 print("\n\nDone. \n\n")
 
-ard_acc = 0
-srd_acc = 0
-rms_linear_acc = 0
-rms_log_acc = 0
+ard_total = 0
+srd_total = 0
+rms_linear_total = 0
+rms_log_total = 0
 
 for i in range(total):
     print("Calculating metrics for: ",i+1," of ",total, end="\r")
-    res = ard(depth[i], pred[i])
+    res = calculate_metrics(depth[i], pred[i])
 
-print("\nAverage Absolute Relative Difference (ARD): ", cumulative/total, "\n\n")
+    ard_total += res[0]
+    srd_total += res[1]
+    rms_linear_total += res[2]
+    rms_log_total += res[3]
 
+print("\n\nAverage Absolute Relative Difference (ARD): ", ard_total/total, "\n")
+print("\nAverage Squared Relative Difference (SRD): ", srd_total/total, "\n")
+print("\nAverage Root Mean Square Linear (RMS Linear): ", rms_linear_total/total, "\n")
+print("\nAverage Root Mean Square Log (RMS Log): ", rms_log_total/total, "\n")
 
