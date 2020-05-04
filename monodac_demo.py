@@ -11,7 +11,12 @@ import urllib.request
 
 app = Flask(__name__)
 
-app.config['UPLOAD_FOLDER'] = "./static/temp" 
+app.config['UPLOAD_FOLDER'] = "./static/temp"
+
+ALLOWED_EXTENSIONS = {'jpg', 'png'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # When base URL is visited
 @app.route('/')
@@ -41,16 +46,31 @@ def uploadFileLocally():
 
     file = request.files['file[]']
     if file:
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'],"c.png"))
-        file.close()
 
-        # Resizing image for 3D Point Cloud
-        image = Image.open(os.path.join(app.config['UPLOAD_FOLDER'],"c.png"))
-        img = image.resize((640,480))
-        img.save(os.path.join(app.config['UPLOAD_FOLDER'],"c.png"))
+        if not allowed_file(file.filename):
+            return "Uploaded file is not a JPG or PNG image."
 
-        generate_depth_map()
-        print("Finished depth generation")
+        try:
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'],"c.png"))
+            file.close()
+        except:
+            return "Server could not access file system, access permission denied."
+
+        try:
+            # Resizing image for 3D Point Cloud
+            image = Image.open(os.path.join(app.config['UPLOAD_FOLDER'],"c.png"))
+            img = image.resize((640,480))
+            img.save(os.path.join(app.config['UPLOAD_FOLDER'],"c.png"))
+        except:
+            return "Uploaded file does not seem to be an image."
+
+        try:
+            generate_depth_map()
+            print("Finished depth generation")
+        except:
+            return "Could not generate depth map, image seems to be corrupted."
+    else:
+        return "Server could not recognise file."
 
     return "Finished"
 
@@ -61,10 +81,16 @@ def captureFromCamera():
 
     camera_ip = request.form['ip']
 
-    urllib.request.urlretrieve("http://" + camera_ip + "/shot.jpg", os.path.join(app.config['UPLOAD_FOLDER'],"c.png"))
+    try:
+        urllib.request.urlretrieve("http://" + camera_ip + "/shot.jpg", os.path.join(app.config['UPLOAD_FOLDER'],"c.png"))
+    except:
+        return "IP Camera Unresponsive."
 
-    generate_depth_map()
-    print("Finished depth generation")
+    try:
+        generate_depth_map()
+        print("Finished depth generation")
+    except:
+        return "Could not generate depth map, image seems to be corrupted."
 
     return "Finished"
 
@@ -73,10 +99,13 @@ def captureFromCamera():
 @app.route('/loadpointcloud', methods = ['GET'])
 def loadPointCloud():
 
-    generate_point_cloud("./static/temp/c.png", "./static/temp/d.png")
-    display_point_cloud()
+    try:
+        generate_point_cloud("./static/temp/c.png", "./static/temp/d.png")
+        display_point_cloud()
+    except:
+        return "Failed to generate 3D point cloud, images corrupted or missing."
     
-    return "Success"
+    return "Finished"
 
 
 # Flask app starts

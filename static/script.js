@@ -158,6 +158,10 @@ function triggerSelect(){
 				data: { ip : camera_ip },
 				success: function(response){
 
+					if(response != "Finished."){
+						M.toast({html: response});
+					}
+
 					console.log(response);
 					$("#ip-input-img img").attr('src','/static/temp/c.png?t=' + new Date().getTime());
 					$("#ip-depth-img img").attr('src','/static/temp/d.png?t=' + new Date().getTime());
@@ -211,6 +215,10 @@ function imageSelected() {
             // timeout: 20000,
             success: function(response) {
 
+				if(response != "Finished."){
+					M.toast({html: response});
+				}
+
 				console.log(response);
 				$("#local-input-img img").attr('src','/static/temp/c.png?t=' + new Date().getTime());
 				$("#local-depth-img img").attr('src','/static/temp/d.png?t=' + new Date().getTime());
@@ -244,7 +252,12 @@ function loadPointCloud(){
 		type: 'GET',
 		url: '/loadpointcloud',
 		success: function(response){
-			console.log("Point Cloud Generated Successfully");
+
+			if(response != "Finished."){
+				M.toast({html: response});
+			}
+			
+			console.log(response);
 		}
 	});
 
