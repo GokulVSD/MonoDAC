@@ -51,14 +51,14 @@ def uploadFileLocally():
             return "Uploaded file is not a JPG or PNG image."
 
         try:
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'],"c.png"))
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'],"temp.png"))
             file.close()
         except:
             return "Server could not access file system, access permission denied."
 
         try:
             # Resizing image for 3D Point Cloud
-            image = Image.open(os.path.join(app.config['UPLOAD_FOLDER'],"c.png"))
+            image = Image.open(os.path.join(app.config['UPLOAD_FOLDER'],"temp.png"))
             img = image.resize((640,480))
             img.save(os.path.join(app.config['UPLOAD_FOLDER'],"c.png"))
         except:
@@ -70,7 +70,7 @@ def uploadFileLocally():
         except:
             return "Could not generate depth map, image seems to be corrupted."
     else:
-        return "Server could not recognise file."
+        return "No file uploaded to server."
 
     return "Finished"
 

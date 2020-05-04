@@ -158,7 +158,7 @@ function triggerSelect(){
 				data: { ip : camera_ip },
 				success: function(response){
 
-					if(response != "Finished."){
+					if(response != "Finished"){
 						M.toast({html: response});
 					}
 
@@ -215,7 +215,7 @@ function imageSelected() {
             // timeout: 20000,
             success: function(response) {
 
-				if(response != "Finished."){
+				if(response != "Finished"){
 					M.toast({html: response});
 				}
 
@@ -253,10 +253,10 @@ function loadPointCloud(){
 		url: '/loadpointcloud',
 		success: function(response){
 
-			if(response != "Finished."){
+			if(response != "Finished"){
 				M.toast({html: response});
 			}
-			
+
 			console.log(response);
 		}
 	});
