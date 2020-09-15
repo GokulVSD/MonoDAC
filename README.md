@@ -1,27 +1,85 @@
-# MonoDAC
+<p align="center">
+<a href="https://imgur.com/rGc3CYt"><img src="https://i.imgur.com/rGc3CYt.png" title="source: imgur.com" width="60%" /></a></p>
+<p align="center">
+ <h3 align="center">
+  Monocular Depth Estimation via a Fully Convolutional Deep Neural Network, utilising Atrous Convolutions, with 3D Point Cloud Visualisation.
+  <br> </h3>
+  
+##
+  
+  <h5 align="center">Final Year Project</h5>
+<h6 align="center">Developed during our 7th and 8th semesters as a part of our undergraduate degree course work.</h6>
 
-This project aims to build a system that takes a single RGB image as input, and
-outputs a depth map corresponding to that image. Each pixel on the depth map will be an
-RGB value with each colour channel varying according to the predicted depth, closer
-being brighter. Each one of these pixels will correspond to the same pixel in the input
-image.
+## 
 
-In order to accomplish the task of depth map generation, the project will utilise
-high performance neural networks, trained over vast RGB-Depth pairs.
+<p align="center">
+The system follows a 3-tier architecture, with a web based front end, Python + Flask as the HTTP server and router, and MySQL server for the database. JavaScript is used to build AJAX requests from the front end, which are served by a Python server running Flask as the application framework. MySQL's Python connector is used to query the MySQL server, which executes the queries on a relational database in 3rd Normal Form.
+</p>
+<p align="center">
+The system is built to serve as an onsite booking and management system for a theatre (franchise). Two actors are considered, one being the cashier at the booking kiosk, who books tickets in exchange for payment, and the other being the manager who views statistics, alters pricing structures, schedules showings of movies, and adds new movies that are to be premiered.
+</p>
+<p align="center">
+All HTTP requests to Flask are made via encrypted POST messages. The system is designed to be secure, robust and flexible. The requirements mandated the use of a stored procedure and a trigger in MySQL. An ER to schema mapping was to be performed and the schema was required to be normalised to 3NF.
+</p>
 
+## 
 
-# Requirements
+<img src="/art/1.gif?raw=true"/>
+<img src="/art/2.gif?raw=true"/>
+<img src="/art/3.gif?raw=true"/>
 
-● Operating System : Ubuntu, MacOS or Windows
-● Version : Ubuntu (19.10 or above), MacOS (10.12 or above), Windows 10
-● Programming Language: Python 3
-● Language Version: Python 3.7.2
-● Libraries: TensorFlow, Keras, NumPy, PIL, Pillow, Scikit-learn, Scikit-image,
-Open3D, OpenCV2, Flask.
-● On the smartphone, an app that enables IP Camera functionality.
-● A Chromium based browser with support for JavaScript and HTML5
+## Documentation
 
+ ####  [Project report and manual](https://docs.google.com/document/d/1FM910xSRuvSdctJPRQz1x_DkcXHST_NvCTRobD6exUI/edit?usp=sharing)
 
-# Keywords
-ANN, CNN, Atrous CNN, Modified DeepLabV3+ architecture, Encoder Decoder, Upsampling, Flask
-Deep Neural Network, KITTI Dataset
+<br />
+
+## Entity Relationship Diagram
+ <a href="https://imgur.com/FqtbNFe"><img src="https://i.imgur.com/FqtbNFe.png" title="source: imgur.com" /></a>
+ 
+<br />
+
+## Database Schema
+ <a href="https://imgur.com/Ldlxg5Y"><img src="https://i.imgur.com/Ldlxg5Y.png" title="source: imgur.com" /></a>
+ 
+<br />
+
+## Functional Dependencies
+ <a href="https://imgur.com/DtWk0Va"><img src="https://i.imgur.com/DtWk0Va.png" title="source: imgur.com" /></a>
+ 
+<br />
+
+##
+
+<a href="https://imgur.com/E76mfpY"><img src="https://i.imgur.com/E76mfpY.png" title="source: imgur.com" /></a>
+
+<br />
+
+## Dependencies
+ <p> <strong>Flask</strong> Python HTTP router</p>
+ <p> <strong>MySQL</strong> Database server</p>
+ 
+ <br />
+
+## External Libraries
+ <p> <strong>Bootstrap</strong> CSS structure</p>
+ <p> <strong>JQuery</strong> AJAX requests, and general JS functionality</p>
+ <p> <strong>pickadate.js</strong> Date and time picker</p>
+ <br />
+
+## 
+
+```
+# MySQL server must have an account with username ‘root’ and password ‘root123’ 
+# (changeable within the runQuery function in app.py)
+# This account needs read/write access to all tables in the db_theatre database (or root privileges)
+
+# Initialise MySQL:
+
+source /path/to/CineManagerDB/initialise.sql
+
+# Use pip to install mysql-connector and flask, use python 3.6 to run app.py 
+# Visit the website by vising http://localhost:5000 
+
+```
+<br />
