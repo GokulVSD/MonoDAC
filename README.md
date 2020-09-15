@@ -43,8 +43,6 @@ We are showcasing the results of our model using a 3D point cloud view, and have
 ## Network Architecture
 <p align="center">
 <a href="https://imgur.com/MOS7a9t"><img src="https://i.imgur.com/MOS7a9t.png" title="source: imgur.com" width="80%" /></a></p>
- 
-<br />
 
 ##
 
@@ -66,10 +64,10 @@ We are showcasing the results of our model using a 3D point cloud view, and have
  <br />
  
  ## Other Requirements
+ <p> <strong>OpenGL 3.5.5</strong> or newer</p>
  <p> <strong>IP Camera</strong> and a network connection</p>
  
  <br />
 
- ##
- ##
+##
 *Training code and model withheld due to academic constraints.*
