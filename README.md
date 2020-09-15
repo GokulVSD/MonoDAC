@@ -44,9 +44,8 @@ We are showcasing the results of our model using a 3D point cloud view, and have
 <p align="center">
 <a href="https://imgur.com/MOS7a9t"><img src="https://i.imgur.com/MOS7a9t.png" title="source: imgur.com" width="80%" /></a></p>
 
-##
-
-<a href="https://imgur.com/E76mfpY"><img src="https://i.imgur.com/E76mfpY.png" title="source: imgur.com" /></a>
+## Screenshots
+<a href="https://imgur.com/ANoHdzu"><img src="https://i.imgur.com/ANoHdzu.png" title="source: imgur.com" /></a>
 
 <br />
 
