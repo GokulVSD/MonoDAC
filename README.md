@@ -26,7 +26,6 @@ We are showcasing the results of our model using a 3D point cloud view, and have
 
 <img src="/art/1.gif?raw=true"/>
 <img src="/art/2.gif?raw=true"/>
-<img src="/art/3.gif?raw=true"/>
 
 ## Documentation
 
